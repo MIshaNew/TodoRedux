@@ -5,16 +5,28 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
 function todoList(state=[], action) {
-  if (action.type === 'ADD_TODO') {
-    return [
-      ...state,
-      action.item
-    ];
+  switch (action.type) {
+    case 'ADD_TODO':
+      return [
+        ...state,
+        action.item,
+      ];
+    case 'DELETE_TODO':
+      const arr = state.filter((name) => {
+        return name != action.name;
+      });
+      return arr;
+    default:
+      return state;
   }
   return state;
 }
 
 const store = createStore(todoList);
+
+store.subscribe(() => {
+  console.log('subscribe', store.getState());
+})
 
 ReactDOM.render(
   <Provider store={store}>
