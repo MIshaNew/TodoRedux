@@ -1,14 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from 'components/App';
+import Home from 'containers/Home/Home';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import todoApp from './reducers'
 
-let store = createStore(todoApp);
+function todoList(state=[], action) {
+  if (action.type === 'ADD_TODO') {
+    return [
+      ...state,
+      action.item
+    ];
+  }
+  return state;
+}
+
+const store = createStore(todoList);
+
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Home />
   </Provider>,
   document.querySelector('.container')
 );

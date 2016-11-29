@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import App from 'components/TodoRedux/App';
+import Todo from '../../components/TodoRedux/Todo';
 
 export default class Home extends Component{
   render(){
     return(
       <div>
-        <App />
+        <Todo />
       </div>
     );
   }
