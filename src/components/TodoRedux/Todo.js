@@ -15,11 +15,11 @@ class Todo extends Component{
   }
 
   removeItem(item) {
-    this.props.deleteItem(item)
+    this.props.deleteItem(item);
   }
 
-  toggleItem(c) {
-    console.log(c);
+  toggleItem(i) {
+    this.props.toggleItem(i);
   }
 
   render(){
@@ -31,15 +31,15 @@ class Todo extends Component{
           {
             this.props.testStore.map((c, i) => 
               <li key={i}>
-              <input type="checkbox" onClick={() => this.toggleItem(c)}></input>
-                {c}
+              <input type="checkbox" onClick={() => this.toggleItem(i)}></input>
+                {c.item}
                 <button type="button" onClick={() => this.removeItem(c)} >delete</button>
               </li>)
           }
         </ol>
-        <button type="button">All</button>
-        <button type="button">Active</button>
-        <button type="button">Completed</button>
+        <button type="button" onClick={this.props.showAll}>All</button>
+        <button type="button" onClick={this.props.activeItem}>Active</button>
+        <button type="button" onClick={this.props.completedItems}>Completed</button>
       </div>
     );
   }
@@ -51,13 +51,22 @@ export default connect(
   }),
   dispatch => ({
     addItem: (todoName) => {
-      dispatch({ type: 'ADD_TODO', item: todoName, status: false });
+      dispatch({ type: 'ADD_TODO', item: todoName });
     },
     deleteItem: (item) => {
       dispatch({ type: 'DELETE_TODO', name: item });
     },
-    toggleItem: (index) => {
-      dispatch({ type: 'DELETE_TODO', name: index });
+    completedItems: () => {
+      dispatch({ type: 'COMPLETED_TODO' });
+    },
+    activeItem: () => {
+      dispatch({ type: 'ACTIVE_TODO' });
+    },
+    toggleItem: (i) => {
+      dispatch({ type: 'TOGGLE_STATUS', id: i })
+    },
+    showAll: () => {
+      dispatch({ type: 'SHOW_ALL'})
     }
   })
 )(Todo);

@@ -9,24 +9,47 @@ function todoList(state=[], action) {
     case 'ADD_TODO':
       return [
         ...state,
-        action.item,
+        {
+          item: action.item,
+          status: false
+        },
       ];
+    
     case 'DELETE_TODO':
-      const arr = state.filter((name) => {
+      const delArr = state.filter((name) => {
         return name != action.name;
       });
-      return arr;
+      return delArr;
+    
+    case 'ACTIVE_TODO':
+      const arrActiv = state;
+      const activ = arrActiv.filter((name) => {
+        return name.status === false;
+      });
+      return activ;
+    
+    case 'COMPLETED_TODO':
+      const arrCompleted = state;
+      const compled = arrCompleted.filter((name) => {
+        return name.status === true;
+      });
+      return compled;
+    
+    case 'TOGGLE_STATUS':
+      const changeStatus = state[action.id].status;
+      if (changeStatus === false) {
+        state[action.id].status = true;
+      } else if (changeStatus === true) {
+        state[action.id].status = false;
+      }
+      console.log(state);
+      return state;
     default:
       return state;
   }
   return state;
 }
-
 const store = createStore(todoList);
-
-store.subscribe(() => {
-  console.log('subscribe', store.getState());
-})
 
 ReactDOM.render(
   <Provider store={store}>
