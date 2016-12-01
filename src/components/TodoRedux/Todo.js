@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { addTodo, deleteTodo, toggleStatus, active, completed, showAll } from '../../actions/action';
 
 class Todo extends Component{
   constructor(props){
     super(props);
     this.addItem = this.addItem.bind(this);
-    this.removeItem = this.removeItem.bind(this);
-    this.toggleItem = this.toggleItem.bind(this);
   }
 
   addItem() {
@@ -14,26 +13,19 @@ class Todo extends Component{
     this.todoInput.value = '';
   }
 
-  removeItem(item) {
-    this.props.deleteItem(item);
-  }
-
-  toggleItem(i) {
-    this.props.toggleItem(i);
-  }
-
   render(){
+    const { testStore } = this.props;
     return(
       <div>
         <input type="text" ref={(input) => { this.todoInput = input }} />
         <button onClick={this.addItem}>Add todo</button>
         <ol>
           {
-            this.props.testStore.map((c, i) => 
+            testStore.todos.map((c, i) => 
               <li key={i}>
-              <input type="checkbox" onClick={() => this.toggleItem(i)}></input>
+              <input type="checkbox" checked={c.status} onClick={() => this.props.toggleItem(i)}></input>
                 {c.item}
-                <button type="button" onClick={() => this.removeItem(c)} >delete</button>
+                <button type="button" onClick={() => this.props.deleteItem(i)} >delete{i}</button>
               </li>)
           }
         </ol>
@@ -50,23 +42,23 @@ export default connect(
     testStore: state
   }),
   dispatch => ({
-    addItem: (todoName) => {
-      dispatch({ type: 'ADD_TODO', item: todoName });
+    addItem: (item) => {
+      dispatch(addTodo(item));
     },
-    deleteItem: (item) => {
-      dispatch({ type: 'DELETE_TODO', name: item });
+    deleteItem: (i) => {
+      dispatch(deleteTodo(i));
+    },
+    toggleItem: (id) => {
+      dispatch(toggleStatus(id))
     },
     completedItems: () => {
-      dispatch({ type: 'COMPLETED_TODO' });
+      dispatch(completed());
     },
     activeItem: () => {
-      dispatch({ type: 'ACTIVE_TODO' });
-    },
-    toggleItem: (i) => {
-      dispatch({ type: 'TOGGLE_STATUS', id: i })
+      dispatch(active());
     },
     showAll: () => {
-      dispatch({ type: 'SHOW_ALL'})
+      dispatch(showAll())
     }
   })
 )(Todo);
