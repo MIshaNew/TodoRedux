@@ -1,5 +1,17 @@
-function todoList(state, action) {
-  console.log(state);
+function initialState() {  
+  if (localStorage.todoList) {
+    const retList = JSON.parse(localStorage.todoList);
+    const initial = { todos: [...retList ] }
+    return initial;
+  } else {
+    const initial = { todos: [] }
+    return initial;
+  }
+}
+
+
+function todoList(state=initialState(), action) {
+  
   switch (action.type) {
     case 'ADD_TODO':
       const allArr = Object.assign({}, state,  {
@@ -19,7 +31,7 @@ function todoList(state, action) {
       arr.todos.splice(action.id, 1);
       localStorage.setItem('todoList', JSON.stringify(arr.todos));
       return arr;
-
+    
     case 'TOGGLE_STATUS':
       const toggleArr = Object.assign({}, state);
       const changeStatus = toggleArr.todos[action.id].status;
@@ -33,21 +45,24 @@ function todoList(state, action) {
 
     case 'COMPLETED_TODO':
       const filterArr = JSON.parse(localStorage.todoList);
-      const todo = filterArr.filter((item) => {
+      const todos = filterArr.filter((item) => {
         return item.status === action.filter;
       })
 
       const tmp = Object.assign({}, state,  {
           todos: [
-            ...todo
+            ...todos
           ]
       })
       return tmp;
     default:
-      const showAll = JSON.parse(localStorage.todoList);
+      
+      console.log(state);
+      const allItems = JSON.parse(localStorage.todoList);
+      console.log(tmp);
       const oldArr = Object.assign({}, state,  {
           todos: [
-            ...showAll
+            ...allItems
           ]
       })
       return oldArr;

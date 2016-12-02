@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import Home from 'containers/Home/Home';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import todoList from 'components/TodoRedux/reducer';
+import todoList from './reducers/reducer';
 
-export const store = createStore(todoList);
+const store = createStore(todoList);
 
 ReactDOM.render(
   <Provider store={store}>
