@@ -22,19 +22,20 @@ export const toggleStatus = (id) => {
 export const active = () => {
   return {
     type: 'COMPLETED_TODO',
-    filter: false
+    filtr: false
   }
 }
 
 export const completed = () => {
   return {
     type: 'COMPLETED_TODO',
-    filter: true
+    filtr: true
   }
 }
 
 export const showAll = () => {
   return {
-    type: 'SHOW_ALL'
+    type: 'SHOW_ALL',
+    filtr: 'all'
   }
 }

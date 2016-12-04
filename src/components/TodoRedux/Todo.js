@@ -6,16 +6,15 @@ import Footer from './FooterFilter';
 import TodoList from './TodoList';
 
 class Todo extends Component{
-  
   render(){
-    const { testStore } = this.props;
+    const { storeList, storeFilter } = this.props;
     return(
       <div>
         <p>TO DO List</p>
         <AddTodo />
         <ol>
           {
-            testStore.todos.map((c, i) => 
+            storeList.todos.map((c, i) => 
               <TodoList
                 desc={c.item}
                 id={i}
@@ -31,4 +30,6 @@ class Todo extends Component{
   }
 }
 
-export default connect( state => ({ testStore: state }))(Todo);
+export default connect( state => ({ 
+  storeList: state.todoList
+}))(Todo);
