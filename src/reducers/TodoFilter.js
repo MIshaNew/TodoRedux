@@ -1,32 +1,8 @@
-const initialState = () => {
-  if (localStorage.todoList) {
-    const retList = JSON.parse(localStorage.todoList);
-    const initial = {
-      todos: [ ...retList ]
-    }
-    return initial;
-  } else {
-    const initial ={
-      todos: []
-    }
-    return initial;
-  }
-}
-
-const todoFilter = (state=initialState(), action) => {
+const todoFilter = (state='SHOW_ALL', action) => {
   switch (action.type) {
-    case 'COMPLETED_TODO':
-      const arr = JSON.parse(localStorage.todoList); 
-      const todo = arr.filter((item) => {
-        return item.status === action.filtr;
-      })
-      const newState = {
-          todos: [
-            ...todo
-          ]
-      }
-      console.log(newState);
-    return newState;
+    case 'CHECK':
+      return action.filter
+    return state;
     
     default:
       return state;

@@ -1,20 +1,16 @@
-const initialState = () => {
-  if (localStorage.todoList) {
-    const retList = JSON.parse(localStorage.todoList);
-    const initial = {
-      todos: [ ...retList ]
-    }
-    return initial;
-  } else {
-    const initial ={
-      todos: []
-    }
-    return initial;
-  }
+const initialState = {
+  todos: []
 }
 
-const todoList = (state=initialState(), action) => {
+const todoList = (state=initialState, action) => {
   switch (action.type) {
+    
+    case 'LOAD_TODO':
+      const initialState = {
+        todos: [ ... action.initialState ]
+      }
+    return initialState;
+   
     case 'ADD_TODO':
       const allArr = Object.assign({}, state,  {
           todos: [
@@ -33,6 +29,18 @@ const todoList = (state=initialState(), action) => {
       arr.todos.splice(action.id, 1);
       localStorage.setItem('todoList', JSON.stringify(arr.todos));
       return arr;
+    
+    case 'COMPLETED_TODO':
+      const tmp = JSON.parse(localStorage.todoList); 
+      const todo = tmp.filter((item) => {
+        return item.status === action.filtr;
+      })
+      const newState = {
+          todos: [
+            ...todo
+          ]
+      }
+    return newState;
 
     case 'TOGGLE_STATUS':
       const toggleArr = Object.assign({}, state);
@@ -41,7 +49,7 @@ const todoList = (state=initialState(), action) => {
       return toggleArr;
 
     default:
-       return state;
+      return state
   }
 }
 

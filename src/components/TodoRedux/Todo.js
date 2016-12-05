@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { deleteTodo, toggleStatus } from '../../actions/action';
+import { loadTodo } from '../../actions/action';
 import AddTodo from './addTodo';
 import Footer from './FooterFilter';
 import TodoList from './TodoList';
 
 class Todo extends Component{
-  render(){
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(loadTodo('SHOW_ALL'));
+  }
+
+  render() {
     const { storeList, store } = this.props;
-    // console.log(store);
     return(
       <div>
         <p>TO DO List</p>

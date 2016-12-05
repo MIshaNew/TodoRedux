@@ -4,12 +4,15 @@ import Home from 'containers/Home/Home';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import reducerApp from './reducers/index';
+import { addTodo } from 'actions/action';
 
-const store = createStore(reducerApp);
+export const store = createStore(reducerApp);
 
-store.subscribe(() => {
-  console.log('subscribe', store.getState());
-})
+// store.subscribe(() => {
+//   console.log('subscribe', store.getState());
+// })
+
+
 
 ReactDOM.render(
   <Provider store={store}>
