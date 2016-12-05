@@ -7,14 +7,15 @@ import TodoList from './TodoList';
 
 class Todo extends Component{
   render(){
-    const { storeList, storeFilter } = this.props;
+    const { storeList, store } = this.props;
+    // console.log(store);
     return(
       <div>
         <p>TO DO List</p>
         <AddTodo />
         <ol>
           {
-            storeList.todos.map((c, i) => 
+            storeList.map((c, i) => 
               <TodoList
                 desc={c.item}
                 id={i}
@@ -31,5 +32,6 @@ class Todo extends Component{
 }
 
 export default connect( state => ({ 
-  storeList: state.todoList
+  storeList: state.todoList.todos,
+  store: state.todoList
 }))(Todo);

@@ -20,13 +20,12 @@ const todoFilter = (state=initialState(), action) => {
       const todo = arr.filter((item) => {
         return item.status === action.filtr;
       })
-      const newState = Object.assign({}, state,  {
+      const newState = {
           todos: [
             ...todo
           ]
-      })
+      }
       console.log(newState);
-      
     return newState;
     
     default:

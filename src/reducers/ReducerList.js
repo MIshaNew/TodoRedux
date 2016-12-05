@@ -41,8 +41,7 @@ const todoList = (state=initialState(), action) => {
       return toggleArr;
 
     default:
-      
-      return state;
+       return state;
   }
 }
 
