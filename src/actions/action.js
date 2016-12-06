@@ -1,24 +1,16 @@
-const createState  = (filter) => {
-  if (filter === 'SHOW_ALL') {
-    const todos = JSON.parse(localStorage.todoList)
-    return todos;
-  } else if (filter === 'ACTIVE') {
-    const todos = JSON.parse(localStorage.todoList)
-    const tmp = todos.filter((item) => {
-      return item.status === false;
-    });
-    return tmp;
-  } else if (filter === 'COMPLETED') {
-    const todos = JSON.parse(localStorage.todoList)
-    const tmp = todos.filter((item) => item.status === true);
-    return tmp;
+const initialState = () => {
+  if (localStorage.todoList) {
+    const initialState = JSON.parse(localStorage.todoList);
+    return initialState;
   }
+  const initialState = [];
+  return initialState;
 }
 
-export const loadTodo = (filter) => {
+export const loadTodo = () => {
   return{
     type: 'LOAD_TODO',
-    initialState: createState(filter)
+    todos: initialState()
   }
 }
 
@@ -29,10 +21,10 @@ export const addTodo = (item) => {
   }
 }
 
-export const deleteTodo = (id) => {
+export const deleteTodo = (item) => {
   return {
     type: 'DELETE_TODO',
-    id
+    item
   }
 }
 
@@ -40,5 +32,12 @@ export const toggleStatus = (id) => {
   return {
     type: 'TOGGLE_STATUS',
     id
+  }
+}
+
+export const check = (filter) => {
+  return {
+    type: 'CHECK',
+    filter
   }
 }

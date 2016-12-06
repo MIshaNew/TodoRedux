@@ -12,8 +12,6 @@ export const store = createStore(reducerApp);
 //   console.log('subscribe', store.getState());
 // })
 
-
-
 ReactDOM.render(
   <Provider store={store}>
     <Home />

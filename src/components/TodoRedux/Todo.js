@@ -12,14 +12,21 @@ class Todo extends Component{
   }
 
   render() {
-    const { storeList, store } = this.props;
+    const { storeList, filter } = this.props;
     return(
       <div>
         <p>TO DO List</p>
         <AddTodo />
         <ol>
           {
-            storeList.map((c, i) => 
+            storeList.filter((id) => {
+              if (filter === 'COMPLETED') {
+                return id.status === false;
+              } else if (filter === 'ACTIVE') {
+                return id.status === true
+              }
+              return storeList;
+            }).map((c, i) => 
               <TodoList
                 desc={c.item}
                 id={i}
@@ -37,5 +44,5 @@ class Todo extends Component{
 
 export default connect( state => ({ 
   storeList: state.todoList.todos,
-  store: state.todoList
+  filter: state.todoFilter
 }))(Todo);

@@ -7,7 +7,7 @@ let TodoList = ({ dispatch, desc, id, status }) => {
     <li>
       <input type="checkbox" checked={status} onClick={() => dispatch(toggleStatus(id))}></input>
       {desc}
-      <button type="button" onClick={() => dispatch(deleteTodo(id))} >delete</button>
+      <button type="button" onClick={() => dispatch(deleteTodo(desc))} >delete</button>
     </li>
   )
 }
