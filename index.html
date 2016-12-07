@@ -3,6 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <title>Hello, React!</title>
+  <script src="https://www.gstatic.com/firebasejs/3.6.2/firebase.js"></script>
+  <script src="https://cdn.firebase.com/libs/reactfire/1.0.0/reactfire.min.js"></script>
+  <script>
+    // Initialize Firebase
+    const config = {
+      apiKey: "AIzaSyBvFW7giiwDG6NhTG7AnHki0pLIS4BFGhg",
+      authDomain: "todolist-8bf41.firebaseapp.com",
+      databaseURL: "https://todolist-8bf41.firebaseio.com",
+      storageBucket: "todolist-8bf41.appspot.com",
+      messagingSenderId: "536416641446"
+    };
+    firebase.initializeApp(config);
+    
+    // console.log(database);
+  </script>
 </head>
 <body>
 

@@ -1,24 +1,13 @@
-const initialState = {
+const initialState = {  
   todos: []
-};
+}
 
-const todoItem = (state = initialState, action) => {
-  if (action.id !== state.id) return state;
-  switch (action.type) {
-    case 'TOGGLE_STATUS':
-    return Object.assign({}, state, { status: !state.status });
-
-    default:
-      return state
-  }
-};
-
-const todoList = (state = initialState, action) => {
+const todoList = (state=initialState, action) => {
   switch (action.type) {
     
     case 'LOAD_TODO':
       return Object.assign({}, state,  {
-        todos: [...action.todos]
+        todos: [ ...action.todos ]
       });
    
     case 'ADD_TODO':
@@ -32,24 +21,50 @@ const todoList = (state = initialState, action) => {
             }
           ]
       })
-      localStorage.setItem('todoList', JSON.stringify(allArr.todos));
-      return allArr;
+
+      firebase.database().ref().set({
+        todos: allArr.todos
+      });
+    
+    return allArr;
 
     case 'DELETE_TODO':
-      return Object.assign({}, state, { 
+      const removeArr = Object.assign({}, state, { 
         todos: state.todos.filter((c) => {
           return c.item !== action.item;
         })
       });
+
+      firebase.database().ref().set({
+        todos: removeArr.todos
+      });
+      
+    return removeArr;
       
     case 'TOGGLE_STATUS':
-      return Object.assign({}, state, { 
+      const toggleArr = Object.assign({}, state, { 
         todos: state.todos.map(c => todoItem(c, action)) 
       });
+      console.log(toggleArr.todos);
+      firebase.database().ref().set({
+        todos: toggleArr.todos
+      });
+    return toggleArr;
 
     default:
-      return state
+    return state
   }
 }
+
+const todoItem = (state=initialState, action) => {
+  if (action.id !== state.id) return state;
+  switch (action.type) {
+    case 'TOGGLE_STATUS':
+    return Object.assign({}, state, { status: !state.status });
+
+  default:
+    return state
+  }
+};
 
 export default todoList;

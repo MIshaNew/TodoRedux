@@ -6,10 +6,27 @@ import Footer from './FooterFilter';
 import TodoList from './TodoList';
 
 class Todo extends Component{
-  componentDidMount() {
+  componentWillMount() {
     const { dispatch } = this.props;
-    dispatch(loadTodo('SHOW_ALL'));
+    
+    firebase.database().ref().once("value", (snapshot) => {
+      snapshot.forEach((data) => {
+        const todos = data.val();
+        dispatch(loadTodo(todos));
+      });
+    });
+    
   }
+
+  // componentDidMount() {
+  //   const database = firebase.database();
+  //   firebase.database().ref().once("value", (snapshot) => {
+  //     const todos = [];
+  //       snapshot.forEach((data) => {
+  //         console.log(data.val());
+  //       });
+  //   });
+
 
   render() {
     const { storeList, filter } = this.props;
@@ -21,9 +38,9 @@ class Todo extends Component{
           {
             storeList.filter((id) => {
               if (filter === 'COMPLETED') {
-                return id.status === false;
+                return id.status === true;
               } else if (filter === 'ACTIVE') {
-                return id.status === true
+                return id.status === false
               }
               return storeList;
             }).map((c, i) => 

@@ -1,16 +1,7 @@
-const initialState = () => {
-  if (localStorage.todoList) {
-    const initialState = JSON.parse(localStorage.todoList);
-    return initialState;
-  }
-  const initialState = [];
-  return initialState;
-}
-
-export const loadTodo = () => {
+export const loadTodo = (todos) => {
   return{
     type: 'LOAD_TODO',
-    todos: initialState()
+    todos
   }
 }
 
