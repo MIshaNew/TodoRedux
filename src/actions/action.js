@@ -1,7 +1,8 @@
-export const loadTodo = (todos) => {
-  return{
+
+export const load = () => {
+  return {
     type: 'LOAD_TODO',
-    todos
+    payload: new Promise(resolve => resolve({ 'test': 'test' }))
   }
 }
 
@@ -32,3 +33,13 @@ export const check = (filter) => {
     filter
   }
 }
+
+
+// new Promise((resolve, reject) => {
+//   firebase.database().ref().once('value').then((snapshot) => {
+//       if (snapshot) {
+//         return resolve({ data: snapshot });
+//       }
+//       return reject({ error: 'asdasdsa' });
+//     });
+// })

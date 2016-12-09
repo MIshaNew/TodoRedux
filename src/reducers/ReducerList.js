@@ -2,12 +2,12 @@ const initialState = {
   todos: []
 }
 
-const todoList = (state=initialState, action) => {
+const todoList = (state = initialState, action) => {
   switch (action.type) {
-    
     case 'LOAD_TODO':
+      console.log(action);
       return Object.assign({}, state,  {
-        todos: [ ...action.todos ]
+        todos: [ ...action.payload ]
       });
    
     case 'ADD_TODO':
@@ -22,37 +22,25 @@ const todoList = (state=initialState, action) => {
           ]
       })
 
-      firebase.database().ref().set({
-        todos: allArr.todos
-      });
-    
-    return allArr;
+      return allArr;
 
     case 'DELETE_TODO':
       const removeArr = Object.assign({}, state, { 
-        todos: state.todos.filter((c) => {
+        todos: state.todos.filter(c => {
           return c.item !== action.item;
         })
       });
 
-      firebase.database().ref().set({
-        todos: removeArr.todos
-      });
-      
-    return removeArr;
+      return removeArr;
       
     case 'TOGGLE_STATUS':
       const toggleArr = Object.assign({}, state, { 
         todos: state.todos.map(c => todoItem(c, action)) 
       });
-      console.log(toggleArr.todos);
-      firebase.database().ref().set({
-        todos: toggleArr.todos
-      });
-    return toggleArr;
+      return toggleArr;
 
     default:
-    return state
+      return state;
   }
 }
 

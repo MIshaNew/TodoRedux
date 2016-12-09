@@ -1,48 +1,43 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { loadTodo } from '../../actions/action';
+import { load as loadTodos } from '../../actions/action';
 import AddTodo from './addTodo';
 import Footer from './FooterFilter';
 import TodoList from './TodoList';
 
 class Todo extends Component{
-  componentWillMount() {
-    const { dispatch } = this.props;
-    
-    firebase.database().ref().once("value", (snapshot) => {
-      snapshot.forEach((data) => {
-        const todos = data.val();
-        dispatch(loadTodo(todos));
-      });
-    });
-    
+  static propTypes = {
+    loadTodos: PropTypes.func.isRequired,
+    filter: PropTypes.string,
+    todos: PropTypes.array,
   }
 
-  // componentDidMount() {
-  //   const database = firebase.database();
-  //   firebase.database().ref().once("value", (snapshot) => {
-  //     const todos = [];
-  //       snapshot.forEach((data) => {
-  //         console.log(data.val());
-  //       });
-  //   });
+  componentWillMount() {
+    this.props.dispatch(this.props.loadTodos());
 
+    // firebase.database().ref().once('value').then((snapshot) => {
+    //   snapshot.forEach((data) => {
+    //     const todos = data.val();
+    //     console.log(todos);
+    //   });
+    // });
+  }
 
   render() {
-    const { storeList, filter } = this.props;
+    const { todos, filter } = this.props;
     return(
       <div>
         <p>TO DO List</p>
         <AddTodo />
         <ol>
-          {
-            storeList.filter((id) => {
+          {todos && todos.length > 0 &&
+            todos.filter((id) => {
               if (filter === 'COMPLETED') {
                 return id.status === true;
               } else if (filter === 'ACTIVE') {
                 return id.status === false
               }
-              return storeList;
+              return todos;
             }).map((c, i) => 
               <TodoList
                 desc={c.item}
@@ -59,7 +54,12 @@ class Todo extends Component{
   }
 }
 
-export default connect( state => ({ 
-  storeList: state.todoList.todos,
-  filter: state.todoFilter
-}))(Todo);
+export default connect( 
+  state => ({ 
+    todos: state.todoList.todos,
+    filter: state.todoFilter
+  },
+  {
+    loadTodos
+  }
+))(Todo);
