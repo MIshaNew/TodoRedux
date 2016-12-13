@@ -13,18 +13,12 @@ class Todo extends Component{
   }
 
   componentWillMount() {
-    this.props.dispatch(this.props.loadTodos());
-
-    // firebase.database().ref().once('value').then((snapshot) => {
-    //   snapshot.forEach((data) => {
-    //     const todos = data.val();
-    //     console.log(todos);
-    //   });
-    // });
+    this.props.dispatch(loadTodos());
   }
 
   render() {
     const { todos, filter } = this.props;
+    console.log('todo', this.props);
     return(
       <div>
         <p>TO DO List</p>
@@ -54,12 +48,7 @@ class Todo extends Component{
   }
 }
 
-export default connect( 
-  state => ({ 
-    todos: state.todoList.todos,
-    filter: state.todoFilter
-  },
-  {
-    loadTodos
-  }
-))(Todo);
+export default connect( state => ({ 
+  todos: state.todoList.todos,
+  filter: state.todoFilter
+}))(Todo);

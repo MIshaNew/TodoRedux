@@ -2,9 +2,21 @@
 export const load = () => {
   return {
     type: 'LOAD_TODO',
-    payload: new Promise(resolve => resolve({ 'test': 'test' }))
+    payload: 
+      new Promise((resolve, reject) => {
+        firebase.database().ref().once('value').then((snapshot) => {
+          if(snapshot){  
+            snapshot.forEach((data) => {
+              const todos = data.val();
+              resolve(todos);
+            });
+          } else {
+            reject((Error("Network Error")));
+          }
+        });
+      })
   }
-}
+} 
 
 export const addTodo = (item) => {
   return {
@@ -34,12 +46,3 @@ export const check = (filter) => {
   }
 }
 
-
-// new Promise((resolve, reject) => {
-//   firebase.database().ref().once('value').then((snapshot) => {
-//       if (snapshot) {
-//         return resolve({ data: snapshot });
-//       }
-//       return reject({ error: 'asdasdsa' });
-//     });
-// })

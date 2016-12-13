@@ -7,8 +7,11 @@ import { promiseMiddleware } from './middleware';
 import reducerApp from './reducers/index';
 import { addTodo } from 'actions/action';
 
-
 export const store = createStore(reducerApp, applyMiddleware(promiseMiddleware));
+
+// store.subscribe(() => {
+//   console.log('store', store.getState());
+// })
 
 ReactDOM.render(
   <Provider store={store}>

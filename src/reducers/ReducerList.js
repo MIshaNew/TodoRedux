@@ -1,17 +1,18 @@
 const initialState = {  
   todos: []
-}
+};
 
 const todoList = (state = initialState, action) => {
   switch (action.type) {
     case 'LOAD_TODO':
-      console.log(action);
-      return Object.assign({}, state,  {
+      let loadTodos = Object.assign({}, state,  {
         todos: [ ...action.payload ]
       });
-   
+      // console.log('loadT', loadTodos);
+      return loadTodos;
+    
     case 'ADD_TODO':
-      const allArr = Object.assign({}, state,  {
+      let addTodo = Object.assign({}, state,  {
           todos: [
             ...state.todos,
             {
@@ -21,20 +22,19 @@ const todoList = (state = initialState, action) => {
             }
           ]
       })
-
-      return allArr;
+      return addTodo;
 
     case 'DELETE_TODO':
-      const removeArr = Object.assign({}, state, { 
+      let removeTodo = Object.assign({}, state, { 
         todos: state.todos.filter(c => {
           return c.item !== action.item;
         })
       });
 
-      return removeArr;
+      return removeTodo;
       
     case 'TOGGLE_STATUS':
-      const toggleArr = Object.assign({}, state, { 
+      let toggleArr = Object.assign({}, state, { 
         todos: state.todos.map(c => todoItem(c, action)) 
       });
       return toggleArr;
